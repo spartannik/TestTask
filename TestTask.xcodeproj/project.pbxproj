@@ -13,6 +13,7 @@
 		C6B2C5C328BF7A5E001C0F2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B2C5C128BF7A5E001C0F2B /* Main.storyboard */; };
 		C6B2C5C528BF7A5F001C0F2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6B2C5C428BF7A5F001C0F2B /* Assets.xcassets */; };
 		C6B2C5C828BF7A5F001C0F2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B2C5C628BF7A5F001C0F2B /* LaunchScreen.storyboard */; };
+		C6B2C5D028BF7B45001C0F2B /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2C5CF28BF7B45001C0F2B /* TableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		C6B2C5C428BF7A5F001C0F2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6B2C5C728BF7A5F001C0F2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C6B2C5C928BF7A5F001C0F2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6B2C5CF28BF7B45001C0F2B /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				C6B2C5BB28BF7A5E001C0F2B /* AppDelegate.swift */,
 				C6B2C5BD28BF7A5E001C0F2B /* SceneDelegate.swift */,
 				C6B2C5BF28BF7A5E001C0F2B /* ViewController.swift */,
+				C6B2C5CF28BF7B45001C0F2B /* TableViewCell.swift */,
 				C6B2C5C128BF7A5E001C0F2B /* Main.storyboard */,
 				C6B2C5C428BF7A5F001C0F2B /* Assets.xcassets */,
 				C6B2C5C628BF7A5F001C0F2B /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B2C5C028BF7A5E001C0F2B /* ViewController.swift in Sources */,
+				C6B2C5D028BF7B45001C0F2B /* TableViewCell.swift in Sources */,
 				C6B2C5BC28BF7A5E001C0F2B /* AppDelegate.swift in Sources */,
 				C6B2C5BE28BF7A5E001C0F2B /* SceneDelegate.swift in Sources */,
 			);
