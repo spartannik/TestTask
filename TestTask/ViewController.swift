@@ -7,65 +7,114 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
-    @IBOutlet weak var titleTF: UITextField!
-    @IBOutlet weak var yearTF: UITextField!
-    @IBOutlet weak var tableView: UITableView!
+struct Model {
+    let title: String
+    let year: String
     
-    var titleList: [String] = []
-    var yearList: [String] = []
+    static func createMovie(title: String, year: String) -> Model {
+        Model(title: title, year: year)
+    }
+}
+
+class ViewController: UIViewController {
+    
+    @IBOutlet weak var movieTableView: UITableView!
+    @IBOutlet weak var movieTitleTextField: UITextField!
+    @IBOutlet weak var movieYearTextField: UITextField!
+    
+    private var movieList: [Model] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createTable()
-        yearTF.delegate = self
+        movieYearTextField.delegate = self
+        movieTableView.delegate = self
+        movieTableView.dataSource = self
+        movieTableView.separatorStyle = .none
     }
     
-    func createTable() {
-        tableView.dataSource = self
-        tableView.delegate = self
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == yearTF {
-                    let allowedCharacters = "1234567890"
-                    let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)
-                    let typedCharacterSet = CharacterSet(charactersIn: string)
-                    let alphabet = allowedCharacterSet.isSuperset(of: typedCharacterSet)
-                    return alphabet
-
-
-          }
-        return true
-      }
-
+    @IBAction func addMoviePressed() {
+        guard let title = movieTitleTextField.text,
+              let year = movieYearTextField.text,
+              !title.trimmingCharacters(in: .whitespaces).isEmpty,
+              !year.trimmingCharacters(in: .whitespaces).isEmpty
+        else {
+            showAlert()
+            return
+        }
+        
+        let movie = Model.createMovie(title: title, year: year)
+        if !(movieList.contains(movie)) {
+            movieList.append(movie)
+            movieTableView.reloadData()
+        }
+        
+        movieTitleTextField.text = ""
+        movieYearTextField.text = ""
+    }
     
-    @IBAction func addButton(_ sender: UIButton) {
-        if titleList.contains(titleTF.text ?? "") {
-            titleTF.text = "this movie is added"
-            yearTF.text = ""
-        } else {
-            titleList.append(titleTF.text ?? "")
-            yearList.append(yearTF.text ?? "")
-            tableView.reloadData()
-            titleTF.text = ""
-            yearTF.text = ""
+    private func showAlert() {
+        let alertController = UIAlertController(
+            title: "Has already been added",
+            message: "Сheck your list",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "OK", style: .destructive)
+        alertController.addAction(okAction)
+        present(alertController, animated: true)
+    }
+}
+
+extension Model: Equatable {
+    static func ==(lhs: Model, rhs: Model) -> Bool {
+        return lhs.title == rhs.title && lhs.year == rhs.year
+    }
+}
+
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        movieList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let movie = movieList[indexPath.row]
+        cell.configureCell(with: movie)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            movieList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
 
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell",
-                                                 for: indexPath) as! TableViewCell
-        cell.stringLabel.text = "\(titleList[indexPath.row]) \(yearList[indexPath.row])"
-        return cell
+extension ViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == movieYearTextField {
+            let allowedCharacters = CharacterSet(charactersIn: "0123456789")
+            let characterSet = CharacterSet(charactersIn: string)
+            return allowedCharacters.isSuperset(of: characterSet)
+        }
+        return true
     }
 }
 
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titleList.count
+extension UITableViewCell {
+    func configureCell(with movie: Model) {
+        var content = defaultContentConfiguration()
+        content.text = movie.title
+        content.secondaryText = movie.year
+        contentConfiguration = content
     }
 }
 
