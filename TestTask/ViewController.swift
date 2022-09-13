@@ -7,15 +7,6 @@
 
 import UIKit
 
-struct Model {
-    let title: String
-    let year: String
-    
-    static func createMovie(title: String, year: String) -> Model {
-        Model(title: title, year: year)
-    }
-}
-
 class ViewController: UIViewController {
     
     @IBOutlet weak var movieTableView: UITableView!
@@ -27,9 +18,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         movieYearTextField.delegate = self
+        tableviewConfigurator()
+    }
+
+    private func tableviewConfigurator() {
         movieTableView.delegate = self
         movieTableView.dataSource = self
-        movieTableView.separatorStyle = .none
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -46,19 +40,21 @@ class ViewController: UIViewController {
             return
         }
         
-        let movie = Model(title: title, year: year)
+        let movie = Model(title: title, year: Int(year) ?? 0)
+
         guard !(movieList.contains(movie)) else {
             showAlert(title: "Movie is already exist", message: "Movie is already exist in your list")
             return
         }
+
         movieList.append(movie)
-        let indexPath = IndexPath(row: movieList.count - 1, section: 0)
-        movieTableView.insertRows(at: [indexPath], with: .automatic)
-        
+
+        movieTableView.reloadData()
+
         movieTitleTextField.text = ""
         movieYearTextField.text = ""
     }
-    
+
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(
             title: title,
@@ -69,23 +65,23 @@ class ViewController: UIViewController {
         alertController.addAction(okAction)
         present(alertController, animated: true)
     }
-}
 
-extension Model: Equatable {
-    static func ==(lhs: Model, rhs: Model) -> Bool {
-        return lhs.title == rhs.title && lhs.year == rhs.year
-    }
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         movieList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+
         let movie = movieList[indexPath.row]
-        cell.configureCell(with: movie)
+
+        cell.textLabel?.text = movie.title
+        cell.detailTextLabel?.text = "\(movie.year)"
+
         return cell
     }
     
@@ -111,13 +107,3 @@ extension ViewController: UITextFieldDelegate {
         return true
     }
 }
-
-extension UITableViewCell {
-    func configureCell(with movie: Model) {
-        var content = defaultContentConfiguration()
-        content.text = movie.title
-        content.secondaryText = movie.year
-        contentConfiguration = content
-    }
-}
-
