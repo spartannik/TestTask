@@ -11,6 +11,7 @@
         <!--View Controller-->
         <scene sceneID="7zN-bN-M2E">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tin-r7-g2s" sceneMemberID="firstResponder"/>
                 <viewController id="MiM-qM-AEk" userLabel="View Controller" customClass="ViewController" customModule="TestTask" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="c3d-V6-bri">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -91,7 +92,6 @@
                         <outlet property="movieYearTextField" destination="YyX-Sh-xY6" id="kSY-DX-zLH"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tin-r7-g2s" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="18.840579710144929" y="70.982142857142847"/>
         </scene>

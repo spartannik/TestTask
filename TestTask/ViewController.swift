@@ -42,27 +42,30 @@ class ViewController: UIViewController {
               !title.trimmingCharacters(in: .whitespaces).isEmpty,
               !year.trimmingCharacters(in: .whitespaces).isEmpty
         else {
-            showAlert()
+            showAlert(title: "Something get wrong", message: "Please, check your information and try again")
             return
         }
         
-        let movie = Model.createMovie(title: title, year: year)
-        if !(movieList.contains(movie)) {
-            movieList.append(movie)
-            movieTableView.reloadData()
+        let movie = Model(title: title, year: year)
+        guard !(movieList.contains(movie)) else {
+            showAlert(title: "Movie is already exist", message: "Movie is already exist in your list")
+            return
         }
+        movieList.append(movie)
+        let indexPath = IndexPath(row: movieList.count - 1, section: 0)
+        movieTableView.insertRows(at: [indexPath], with: .automatic)
         
         movieTitleTextField.text = ""
         movieYearTextField.text = ""
     }
     
-    private func showAlert() {
+    private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(
-            title: "Has already been added",
-            message: "Сheck your list",
+            title: title,
+            message: message,
             preferredStyle: .alert
         )
-        let okAction = UIAlertAction(title: "OK", style: .destructive)
+        let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true)
     }
