@@ -1,8 +1,8 @@
 # TestTask
 
-Create a simple one page application where you can add movies to a favorite list.
-Requirements:
-● Movies must have 2 properties: title (string, mandatory) and year (integer,
-mandatory)
-● There cannot be duplicates in the movie list
-● Source code should be stored on GitHub
+Создайте простое одностраничное приложение, в котором вы сможете добавлять фильмы в список избранного.
+Требования:
+● Фильмы должны иметь 2 свойства: название (строка, обязательно) и год (целое,
+обязательный)
+● В списке фильмов не должно быть дубликатов.
+● Исходный код должен храниться на GitHub.
